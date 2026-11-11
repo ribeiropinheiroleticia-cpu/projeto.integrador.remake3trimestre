@@ -1,1 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AquaSense: aprenda como sensores medem a temperatura da água e ajudam a automatizar uma piscina.">
+<title>AquaSense | A ciência da temperatura da água</title>
+<style>
+:root{--navy:#073b55;--blue:#087e9b;--cyan:#dff7f5;--sun:#ffd166;--ink:#153344;--paper:#f5fbfc;--card:#fff;--muted:#557080;--line:#c9e2e7;--focus:#ff9f1c}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+body.dyslexia{font-family:Arial,Verdana,sans-serif;letter-spacing:.045em;word-spacing:.08em;line-height:1.85}
+body.high-contrast{--navy:#000;--blue:#003cff;--cyan:#fff;--sun:#ff0;--ink:#000;--paper:#fff;--card:#fff;--muted:#222;--line:#000;--focus:#f00}
+a{color:inherit}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:.72rem 1rem;background:var(--blue);color:#fff;font-weight:700}button:hover{filter:brightness(1.08)}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.skip{position:absolute;left:-9999px;top:0;background:#fff;color:#000;padding:1rem;z-index:99}.skip:focus{left:1rem}
+header{background:var(--navy);color:#fff;position:sticky;top:0;z-index:10;box-shadow:0 3px 15px #002b3b33}
+.nav{max-width:1120px;margin:auto;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.brand{font-size:1.35rem;font-weight:900;letter-spacing:.02em}.brand span{color:var(--sun)}
+nav{display:flex;gap:.35rem;flex-wrap:wrap}nav a{color:#fff;text-decoration:none;padding:.45rem .65rem;border-radius:8px;font-size:.92rem}nav a:hover{background:#ffffff20}
+.tools{display:flex;gap:.45rem;flex-wrap:wrap}.tools button{background:#fff;color:var(--navy);padding:.5rem .7rem;font-size:.88rem}
+.hero{background:linear-gradient(120deg,#073b55 0%,#087e9b 62%,#22a6a1 100%);color:#fff;padding:4.5rem 1rem 4rem;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:380px;height:380px;border:45px solid #ffffff18;border-radius:50%;right:-90px;top:-110px}
+.wrap{max-width:1120px;margin:auto}.hero .wrap{position:relative;z-index:1}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:.78rem;font-weight:800;color:var(--sun)}
+h1{font-size:clamp(2.2rem,6vw,4.5rem);line-height:1.06;max-width:780px;margin:.6rem 0 1rem}h2{font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.15;color:var(--navy);margin:0 0 .8rem}h3{color:var(--navy);margin:.2rem 0 .5rem}.hero p{max-width:700px;font-size:1.15rem;color:#e4f7fa}.actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.4rem}.btn-light{background:var(--sun);color:#263b45}.btn-outline{background:transparent;border:2px solid #fff}
+main section{padding:3.6rem 1rem;scroll-margin-top:110px}.intro{max-width:760px;color:var(--muted);font-size:1.05rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1.5rem}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.25rem;box-shadow:0 8px 25px #073b550c}.icon{font-size:1.8rem}.tag{display:inline-block;background:var(--cyan);color:var(--navy);font-weight:800;border-radius:99px;padding:.2rem .65rem;font-size:.78rem}
+.alt{background:#eaf6f7}.two{display:grid;grid-template-columns:1.1fr .9fr;gap:1.3rem;align-items:center}.pool-art{min-height:280px;border-radius:24px;background:linear-gradient(#9fe4e8 0 17%,#168eae 17% 100%);position:relative;overflow:hidden;border:8px solid #fff;box-shadow:0 12px 35px #073b5520}
+.pool-art:before{content:"☀";position:absolute;right:25px;top:8px;font-size:3rem;color:#ffd166;text-shadow:0 2px 10px #fff8}
+.waterline{position:absolute;top:17%;left:0;right:0;border-top:3px dashed #fff9}.probe{position:absolute;width:8px;background:#ffda75;border-radius:8px;top:18%;height:72%;box-shadow:0 0 0 4px #fff5}.probe:after{content:"";position:absolute;bottom:-8px;left:-5px;width:18px;height:18px;background:#ff9f1c;border-radius:50%}.probe.p1{left:24%}.probe.p2{left:50%}.probe.p3{left:76%}
+.simulator{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:1.2rem;margin-top:1.3rem}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}.field label{display:block;font-weight:800;margin-bottom:.35rem}.field input,.field select{width:100%;padding:.7rem;border:1px solid #9abac4;border-radius:10px;background:#fff;color:#153344}
+.readings{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin:1rem 0}.reading{background:#eaf7f8;border-radius:14px;padding:.9rem;text-align:center}.reading strong{display:block;font-size:1.65rem;color:#087e9b}.reading small{color:#365766}
+.status{padding:.8rem 1rem;border-radius:12px;background:#fff5d9;border-left:5px solid #e5a800;margin-top:.8rem}
+.chart{width:100%;height:220px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-top:1rem}
+.term{border-left:4px solid var(--blue);padding:.2rem 0 .2rem 1rem;margin:.8rem 0}
+.chatbox{border:1px solid var(--line);border-radius:18px;background:var(--card);padding:1rem;max-width:780px;margin-top:1rem}
+.chatlog{min-height:110px;max-height:260px;overflow:auto;background:#f1f8f9;border-radius:12px;padding:1rem;margin:.8rem 0}
+.chatrow{display:flex;gap:.5rem}.chatrow input{flex:1;min-width:0;border:1px solid #9abac4;border-radius:10px;padding:.75rem}
+.note{font-size:.9rem;color:var(--muted)}.access-note{background:#fff8e5;border:1px solid #f2d98a;padding:1rem;border-radius:12px}
+footer{background:var(--navy);color:#fff;padding:2rem 1rem}footer p{max-width:1120px;margin:auto;color:#d6edf2}
+@media(max-width:760px){.two{grid-template-columns:1fr}.nav{align-items:flex-start}nav{order:3;width:100%}.readings{grid-template-columns:1fr}.hero{padding:3.2rem 1rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<header><div class="nav">
+ <div class="brand" aria-label="AquaSense"><span>☀</span> AquaSense</div>
+ <nav aria-label="Menu principal">
+  <a href="#inicio">Início</a><a href="#ciencia">Ciência</a><a href="#robotica">Robótica</a><a href="#simulador">Simulador</a><a href="#dados">Dados</a><a href="#duvidas">Dúvidas</a>
+ </nav>
+ <div class="tools" aria-label="Ferramentas de acessibilidade">
+  <button type="button" id="contrast" aria-pressed="false" title="Ativar alto contraste">◐ Contraste</button>
+  <button type="button" id="dyslexia" aria-pressed="false" title="Alternar fonte de leitura">Aa Leitura</button>
+  <button type="button" id="readPage" title="Ouvir introdução">🔊 Ouvir</button>
+ </div>
+</div></header>
 
+<section class="hero" id="inicio"><div class="wrap">
+ <div class="eyebrow">Projeto Integrador CEP • Física + Robótica + Programação</div>
+ <h1>Como medir o aquecimento da água?</h1>
+ <p>Descubra como sensores transformam temperatura em informação, como a robótica acompanha diferentes pontos de uma piscina e como os dados ajudam a tomar decisões.</p>
+ <div class="actions"><a href="#simulador"><button class="btn-light">Experimentar simulador ↓</button></a><a href="#ciencia"><button class="btn-outline">Explorar o conteúdo</button></a></div>
+</div></section>
+
+<main id="conteudo">
+<section><div class="wrap">
+ <span class="tag">NOSSO DESAFIO</span><h2>Uma piscina inteligente começa com uma boa medição</h2>
+ <p class="intro">A água de uma piscina pode apresentar temperaturas diferentes conforme a profundidade, a circulação e a incidência do Sol. Com sensores em pontos distintos, podemos acompanhar essas variações e verificar se o sistema está aquecendo a água.</p>
+ <div class="cards">
+  <article class="card"><div class="icon">🌡️</div><h3>Medir</h3><p>Obter a temperatura em diferentes regiões da piscina.</p></article>
+  <article class="card"><div class="icon">🤖</div><h3>Automatizar</h3><p>Usar um microcontrolador para ler os sensores e controlar o aquecimento.</p></article>
+  <article class="card"><div class="icon">📊</div><h3>Entender</h3><p>Comparar medidas ao longo do tempo e interpretar os resultados.</p></article>
+ </div>
+</div></section>
+
+<section class="alt" id="ciencia"><div class="wrap two">
+ <div><span class="tag">01 • FÍSICA DAS MEDIDAS</span><h2>Como um sensor mede a temperatura?</h2>
+ <p>Temperatura é uma grandeza física relacionada ao estado térmico de um corpo. O sensor possui um elemento sensível que muda uma propriedade elétrica conforme a temperatura varia.</p>
+ <p>No sensor digital DS18B20, o circuito interno converte a variação detectada em um valor digital. Esse valor é enviado ao microcontrolador por um protocolo de comunicação chamado 1-Wire.</p>
+ <div class="term"><strong>Grandeza física:</strong> aquilo que pode ser medido, como a temperatura, expressa em °C.</div>
+ <div class="term"><strong>Sinal elétrico:</strong> informação representada por variações elétricas que o circuito consegue interpretar.</div>
+ </div>
+ <div class="pool-art" role="img" aria-label="Ilustração de piscina com três sensores posicionados em profundidades diferentes"><span class="waterline"></span><span class="probe p1"></span><span class="probe p2"></span><span class="probe p3"></span></div>
+</div></section>
+
+<section id="robotica"><div class="wrap">
+ <span class="tag">02 • ROBÓTICA</span><h2>Do sensor ao sistema automatizado</h2>
+ <p class="intro">O microcontrolador recebe as leituras, compara os valores com a temperatura desejada e pode acionar um sistema de aquecimento quando necessário.</p>
+ <div class="cards">
+  <article class="card"><div class="icon">1️⃣</div><h3>Sensor</h3><p>Fica em contato com a água e detecta sua temperatura.</p></article>
+  <article class="card"><div class="icon">2️⃣</div><h3>Microcontrolador</h3><p>Arduino ou ESP32 recebe e organiza os dados.</p></article>
+  <article class="card"><div class="icon">3️⃣</div><h3>Programa</h3><p>Compara a leitura com a temperatura-alvo e aplica uma regra de controle.</p></article>
+  <article class="card"><div class="icon">4️⃣</div><h3>Atuador</h3><p>Um relé apropriado pode comandar o aquecedor, com proteções elétricas adequadas.</p></article>
+ </div>
+ <div class="access-note"><strong>Segurança:</strong> esta é uma demonstração educacional. Instalações reais em piscinas exigem equipamentos próprios para ambiente molhado, isolamento, aterramento, proteção elétrica e supervisão profissional. Nunca coloque circuitos eletrônicos comuns em contato com a água.</div>
+</div></section>
+
+<section class="alt" id="medidas"><div class="wrap">
+ <span class="tag">03 • ENTENDA AS MEDIDAS</span><h2>Precisão, resolução e tempo de resposta</h2>
+ <div class="cards">
+  <article class="card"><h3>Precisão / exatidão</h3><p>Indica o quanto o resultado é confiável e próximo do valor verdadeiro. No uso cotidiano, “precisão” também é usada para falar da repetibilidade; são conceitos diferentes na metrologia.</p></article>
+  <article class="card"><h3>Resolução</h3><p>É a menor variação que o instrumento consegue distinguir ou apresentar. No DS18B20, a configuração pode variar de 9 a 12 bits.</p></article>
+  <article class="card"><h3>Tempo de resposta</h3><p>É o tempo que o sensor leva para acompanhar uma mudança de temperatura. Depende do sensor, da montagem e do contato térmico com a água.</p></article>
+ </div>
+ <p class="note">Exemplo: um visor que mostra 25,25 °C tem mais casas decimais que um que mostra 25,3 °C, mas isso não garante, sozinho, que seja mais exato.</p>
+</div></section>
+
+<section id="simulador"><div class="wrap">
+ <span class="tag">04 • EXPERIMENTE</span><h2>Simulador de temperatura da piscina</h2>
+ <p class="intro">Altere as temperaturas dos três pontos e observe como a água pode aquecer de maneira diferente em cada profundidade. Os valores são simulados, não leituras reais de uma piscina.</p>
+ <div class="simulator">
+  <div class="controls">
+   <div class="field"><label for="surface">Superfície (°C)</label><input id="surface" type="range" min="15" max="40" step=".1" value="29"><output id="surfaceOut">29,0 °C</output></div>
+   <div class="field"><label for="middle">Meio (°C)</label><input id="middle" type="range" min="15" max="40" step=".1" value="27"><output id="middleOut">27,0 °C</output></div>
+   <div class="field"><label for="bottom">Fundo (°C)</label><input id="bottom" type="range" min="15" max="40" step=".1" value="25"><output id="bottomOut">25,0 °C</output></div>
+   <div class="field"><label for="target">Temperatura desejada (°C)</label><input id="target" type="number" min="15" max="40" step=".5" value="28"></div>
+  </div>
+  <div class="readings" aria-live="polite">
+   <div class="reading"><small>Superfície</small><strong id="sVal">29,0°</strong></div>
+   <div class="reading"><small>Meio</small><strong id="mVal">27,0°</strong></div>
+   <div class="reading"><small>Fundo</small><strong id="bVal">25,0°</strong></div>
+  </div>
+  <div class="status" id="status" role="status">A superfície está mais quente. A média está abaixo da temperatura desejada.</div>
+  <div class="actions"><button id="heat">Simular aquecimento +1 °C</button><button id="reset" class="btn-light" style="background:#e5f3f5;color:#073b55">Restaurar valores</button></div>
+ </div>
+</div></section>
+
+<section class="alt" id="dados"><div class="wrap">
+ <span class="tag">05 • ANÁLISE DE DADOS</span><h2>Como saber se a piscina está aquecendo?</h2>
+ <p class="intro">Uma leitura isolada não mostra a tendência. É necessário registrar a temperatura em intervalos regulares e comparar os valores ao longo do tempo.</p>
+ <div class="card"><h3>Exemplo de evolução da temperatura média</h3><canvas id="chart" class="chart" width="900" height="220" role="img" aria-label="Gráfico de exemplo mostrando a temperatura média subindo de 24 para 28 graus em quatro horas"></canvas><p class="note">Dados ilustrativos: 24 °C, 25 °C, 26 °C, 27 °C e 28 °C em cinco medições.</p></div>
+ <div class="cards">
+  <article class="card"><h3>Temperatura subindo</h3><p>O sistema provavelmente está transferindo energia térmica para a água, se as demais condições forem controladas.</p></article>
+  <article class="card"><h3>Temperatura estável</h3><p>O ganho de energia pode estar equilibrado com as perdas para o ambiente.</p></article>
+  <article class="card"><h3>Temperatura caindo</h3><p>A água pode estar perdendo mais energia do que recebe.</p></article>
+ </div>
+</div></section>
+
+<section><div class="wrap">
+ <span class="tag">06 • SUSTENTABILIDADE</span><h2>Uma piscina mais eficiente</h2>
+ <p class="intro">O monitoramento pode evitar aquecimento desnecessário. Com dados confiáveis, o controle pode funcionar apenas quando a água estiver abaixo da faixa desejada, ajudando a reduzir desperdícios de energia.</p>
+</div></section>
+
+<section class="alt" id="duvidas"><div class="wrap">
+ <span class="tag">07 • CENTRAL DE DÚVIDAS</span><h2>Assistente AquaSense</h2>
+ <p class="intro">Faça uma pergunta sobre sensores, temperatura, Física ou automação. Esta versão de demonstração responde usando uma pequena base de conteúdos do projeto. Para respostas generativas com IA, é necessário conectar um serviço de IA por meio de um servidor seguro.</p>
+ <div class="chatbox">
+  <div class="chatlog" id="chatlog" aria-live="polite"><strong>AquaSense:</strong> Olá! Posso explicar como funciona um sensor, o que é resolução ou como identificar o aquecimento da piscina.</div>
+  <div class="chatrow"><input id="question" type="text" placeholder="Digite sua dúvida..." aria-label="Digite sua pergunta"><button id="ask">Perguntar</button></div>
+  <div class="actions"><button id="speakAnswer" class="btn-light" style="background:#e5f3f5;color:#073b55">🔊 Ouvir resposta</button><button id="clearChat" class="btn-outline" style="border-color:#087e9b;color:#087e9b">Limpar conversa</button></div>
+  <p class="note">A resposta também pode ser selecionada para tradução pelo botão flutuante do VLibras.</p>
+ </div>
+</div></section>
+
+<section><div class="wrap">
+ <h2>Glossário rápido</h2>
+ <div class="cards">
+  <article class="card"><h3>Temperatura</h3><p>Grandeza física que indica o estado térmico de um corpo.</p></article>
+  <article class="card"><h3>Sensor</h3><p>Dispositivo que detecta uma grandeza física e produz uma resposta mensurável.</p></article>
+  <article class="card"><h3>Microcontrolador</h3><p>Pequeno computador programável que lê sensores e controla dispositivos.</p></article>
+  <article class="card"><h3>Automação</h3><p>Uso de tecnologia para executar tarefas com pouca intervenção humana.</p></article>
+ </div>
+</div></section>
+</main>
+<footer><p><strong>AquaSense • Projeto Integrador CEP</strong><br>Ciência, tecnologia, robótica e inclusão caminhando juntas.</p></footer>
+
+<!-- Widget oficial VLibras -->
+<div vw class="enabled"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+<script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
+
+<script>
+const $=id=>document.getElementById(id);
+const fmt=n=>Number(n).toFixed(1).replace('.',',');
+$('contrast').addEventListener('click',()=>{document.body.classList.toggle('high-contrast');$('contrast').setAttribute('aria-pressed',document.body.classList.contains('high-contrast'))});
+$('dyslexia').addEventListener('click',()=>{document.body.classList.toggle('dyslexia');$('dyslexia').setAttribute('aria-pressed',document.body.classList.contains('dyslexia'))});
+function speak(text){if(!('speechSynthesis'in window)){alert('Seu navegador não oferece leitura em voz alta.');return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='pt-BR';speechSynthesis.speak(u)}
+$('readPage').onclick=()=>speak('AquaSense. Como medir o aquecimento da água? Descubra como sensores transformam temperatura em informação e como a robótica acompanha uma piscina.');
+const ids=['surface','middle','bottom'];
+function update(){
+ let v=ids.map(id=>Number($(id).value));
+ ids.forEach((id,i)=>{$(id+'Out').textContent=fmt(v[i])+' °C';$(['sVal','mVal','bVal'][i]).textContent=fmt(v[i])+'°'});
+ const avg=v.reduce((a,b)=>a+b,0)/3, target=Number($('target').value)||28;
+ let msg=`Temperatura média: ${fmt(avg)} °C. `;
+ if(avg<target-.2)msg+='A média está abaixo da temperatura desejada. O aquecimento seria indicado no modelo.';
+ else if(avg>target+.2)msg+='A média já está acima da temperatura desejada. O aquecimento pode ser desligado no modelo.';
+ else msg+='A média está próxima da temperatura desejada.';
+ if(Math.max(...v)-Math.min(...v)>1.5)msg+=' Há diferença relevante entre os pontos; a água não está com temperatura uniforme.';
+ $('status').textContent=msg;
+}
+ids.forEach(id=>$(id).addEventListener('input',update));$('target').addEventListener('input',update);
+$('heat').onclick=()=>{ids.forEach(id=>$(id).value=Math.min(40,Number($(id).value)+1));update()};
+$('reset').onclick=()=>{$('surface').value=29;$('middle').value=27;$('bottom').value=25;$('target').value=28;update()};update();
+function drawChart(){const c=$('chart'),ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle='#c9e2e7';ctx.lineWidth=2;for(let i=0;i<5;i++){let y=25+i*40;ctx.beginPath();ctx.moveTo(55,y);ctx.lineTo(w-25,y);ctx.stroke()}const vals=[24,25,26,27,28],pts=vals.map((v,i)=>({x:90+i*180,y:h-35-(v-20)*25}));ctx.strokeStyle='#087e9b';ctx.lineWidth=5;ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();pts.forEach((p,i)=>{ctx.fillStyle='#ffb703';ctx.beginPath();ctx.arc(p.x,p.y,8,0,Math.PI*2);ctx.fill();ctx.fillStyle='#153344';ctx.font='bold 19px Arial';ctx.fillText(vals[i]+'°C',p.x-25,p.y-18);ctx.font='16px Arial';ctx.fillText(i+'h',p.x-8,h-8)})}drawChart();
+function answer(q){q=q.toLowerCase();if(q.includes('precis')||q.includes('exatid'))return 'Precisão pode se referir à repetibilidade das medidas. Exatidão é a proximidade entre o resultado e o valor verdadeiro. Um instrumento pode mostrar muitas casas decimais sem ser necessariamente exato.';if(q.includes('resolu'))return 'Resolução é a menor variação que o instrumento consegue distinguir ou apresentar. No DS18B20, a resolução pode ser configurada entre 9 e 12 bits.';if(q.includes('resposta')||q.includes('demora'))return 'Tempo de resposta é o intervalo que o sensor leva para acompanhar uma mudança de temperatura. Ele depende do sensor e também do contato térmico com a água.';if(q.includes('ds18')||q.includes('sensor'))return 'O DS18B20 é um sensor digital de temperatura. Ele converte a medição em um dado digital e se comunica usando o protocolo 1-Wire. Vários sensores podem compartilhar o mesmo barramento.';if(q.includes('aquecer')||q.includes('aquecimento'))return 'Para identificar o aquecimento, registre temperaturas em intervalos regulares. Se a média dos pontos subir ao longo do tempo, a água está aquecendo. Compare também superfície, meio e fundo.';if(q.includes('libras')||q.includes('surdo'))return 'Use o botão flutuante do VLibras para traduzir textos do site para Libras. O site também oferece leitura em voz alta para apoiar outros perfis de usuários.';if(q.includes('arduino')||q.includes('robótica')||q.includes('robotica'))return 'O Arduino pode receber os dados do sensor, comparar com uma temperatura-alvo e comandar um atuador, como um relé apropriado. Em piscinas reais, a instalação elétrica exige proteção e supervisão profissional.';return 'Posso ajudar com sensores de temperatura, DS18B20, Física das medidas, resolução, tempo de resposta, Arduino e análise do aquecimento. Tente formular sua pergunta usando um desses assuntos.'}
+let lastAnswer='';
+function ask(){const q=$('question').value.trim();if(!q)return;lastAnswer=answer(q);const log=$('chatlog');log.innerHTML+='<p><strong>Você:</strong> '+escapeHtml(q)+'</p><p><strong>AquaSense:</strong> '+escapeHtml(lastAnswer)+'</p>';log.scrollTop=log.scrollHeight;$('question').value=''}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('ask').onclick=ask;$('question').addEventListener('keydown',e=>{if(e.key==='Enter')ask()});$('speakAnswer').onclick=()=>lastAnswer?speak(lastAnswer):speak('Faça uma pergunta para ouvir a resposta.');$('clearChat').onclick=()=>{$('chatlog').innerHTML='<strong>AquaSense:</strong> Conversa limpa. Qual é sua dúvida?';lastAnswer=''};
+</script>
+</body></html>
